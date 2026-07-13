@@ -130,19 +130,19 @@ services:
     healthcheck:
       test: ["CMD", "curl", "-sf", "http://localhost:61208/api/4/status"]
 
-  adguard:
-    image: adguard/adguardhome:latest
-    container_name: ${STACK}-adguard
-    restart: unless-stopped
-    volumes:
-      - ${CONFIGS_FOLDER}/adguard/work:/opt/adguardhome/work
-      - ${CONFIGS_FOLDER}/adguard/conf:/opt/adguardhome/conf
-    networks:
-      local-net:
-      lan-net:
-        ipv4_address: ${ADGUARD_IP}
-    healthcheck:
-      test: ["CMD-SHELL", "wget --spider http://127.0.0.1:80 || exit 1"]
+#  adguard:
+#    image: adguard/adguardhome:latest
+#    container_name: ${STACK}-adguard
+#    restart: unless-stopped
+#    volumes:
+#      - ${CONFIGS_FOLDER}/adguard/work:/opt/adguardhome/work
+#      - ${CONFIGS_FOLDER}/adguard/conf:/opt/adguardhome/conf
+#    networks:
+#      local-net:
+#      lan-net:
+#        ipv4_address: ${ADGUARD_IP}
+#    healthcheck:
+#      test: ["CMD-SHELL", "wget --spider http://127.0.0.1:80 || exit 1"]
 
   backdrops-sync:
     image: alpine:latest
