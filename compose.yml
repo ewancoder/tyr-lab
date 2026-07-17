@@ -33,10 +33,30 @@ services:
 
   # This container can be transformed into a VPN-container, to enable VPN for everything.
   gateway:
-    image: alpine:latest
+    image: thrnz/docker-wireguard-pia:latest
     container_name: ${STACK}-gateway
-    command: sleep infinity
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.default.disable_ipv6=1
+      - net.ipv6.conf.all.disable_ipv6=1
+      - net.ipv6.conf.lo.disable_ipv6=1
+    environment:
+      - LOC=${PIA_LOC}
+      - USER=${PIA_USER}
+      - PASS=${PIA_PASS}
+      - LOCAL_NETWORK=192.168.1.0/24
+      - PORT_FORWARDING=1
+      - PORT_PERSIST=1
+      - KEEPALIVE=25
+      - RECONNECT=1
+      - PORT_SCRIPT=/scripts/pia-port.sh
+    volumes:
+      - ${CONFIGS_FOLDER}/pia:/pia
+      - ${CONFIGS_FOLDER}/pia-shared:/pia-shared
+      - ./pia-port.sh:/scripts/pia-port.sh:ro
     networks:
       - local-net
     ports:
@@ -55,8 +75,8 @@ services:
       - 8920:8920     # Jellyfin optional
       - 7359:7359/udp # Jellyfin optional
       - 1900:1900/udp # Jellyfin optional
-    healthcheck:
-      test: ["CMD", "true"]
+    #healthcheck:
+    #  test: ["CMD", "true"]
 
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
