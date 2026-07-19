@@ -75,8 +75,16 @@ services:
       - 8920:8920     # Jellyfin optional
       - 7359:7359/udp # Jellyfin optional
       - 1900:1900/udp # Jellyfin optional
+      - ${HTTP_PROXY_PORT}:8888 # HTTP proxy
     #healthcheck:
     #  test: ["CMD", "true"]
+
+  http-proxy:
+    image: kalaksi/tinyproxy
+    network_mode: service:gateway
+    depends_on:
+      gateway:
+        condition: service_healthy
 
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
