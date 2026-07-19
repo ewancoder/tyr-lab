@@ -81,6 +81,7 @@ services:
 
   http-proxy:
     image: kalaksi/tinyproxy
+    container_name: ${STACK}-httpproxy
     network_mode: service:gateway
     depends_on:
       gateway:
