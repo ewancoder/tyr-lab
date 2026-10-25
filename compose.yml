@@ -53,6 +53,7 @@ services:
       - KEEPALIVE=25
       - RECONNECT=1
       - PORT_SCRIPT=/scripts/pia-port.sh
+      - VPNDNS=1.1.1.1,9.9.9.9
     volumes:
       - ${CONFIGS_FOLDER}/pia:/pia
       - ${CONFIGS_FOLDER}/pia-shared:/pia-shared
