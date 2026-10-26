@@ -84,6 +84,10 @@ services:
     image: kalaksi/tinyproxy
     container_name: ${STACK}-httpproxy
     network_mode: service:gateway
+    environment:
+      MAX_CLIENTS: 500 # xpme alone opens >200 tile connections
+    ulimits:
+      nofile: 8192 # 2 fds per client (client + upstream)
     depends_on:
       gateway:
         condition: service_healthy
